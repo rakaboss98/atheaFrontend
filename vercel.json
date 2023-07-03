@@ -1,7 +1,7 @@
 {
     "headers": [
       {
-        "source": "/65.0.163.196/(.*)",
+        "source": "http://65.0.163.196/(.*)",
         "headers": [
           { "key": "Access-Control-Allow-Credentials", "value": "true" },
           { "key": "Access-Control-Allow-Origin", "value": "*" },
