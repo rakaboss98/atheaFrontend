@@ -10,6 +10,7 @@ export default function Login({setLoggedIn}) {
 
   const handleLogin = async () => {
     try {
+      // make sure the api endpoints are https secured
       const res = await axios.post('https://athena-fhmx.onrender.com/user/authenticate/', { username: loginEmail, password: loginPassword, collections: {} });
       localStorage.setItem('token', res.data.access_token);
       setLoggedIn(true)
