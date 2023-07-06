@@ -13,7 +13,7 @@ export default function Signup(){
         setError('');
         setIsLoading(true);
         try {
-          await axios.post('http://65.0.163.196/user/', { username: signupEmail, password: signupPassword, collections: {} });
+          await axios.post('https://athena-fhmx.onrender.com/user/', { username: signupEmail, password: signupPassword, collections: {} });
           setIsLoading(false);
         } catch (error) {
           console.error('Signup Error', error);

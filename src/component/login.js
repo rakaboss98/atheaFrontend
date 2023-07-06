@@ -10,7 +10,7 @@ export default function Login({setLoggedIn}) {
 
   const handleLogin = async () => {
     try {
-      const res = await axios.post('http://65.0.163.196/user/authenticate/', { username: loginEmail, password: loginPassword, collections: {} });
+      const res = await axios.post('https://athena-fhmx.onrender.com/user/authenticate/', { username: loginEmail, password: loginPassword, collections: {} });
       localStorage.setItem('token', res.data.access_token);
       setLoggedIn(true)
     } catch (error) {

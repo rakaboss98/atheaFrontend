@@ -33,7 +33,7 @@ export default function Collection() {
     const fetchCollections = async () => {
       try {
         const token = localStorage.getItem('token')
-        const response = await axios.get('http://65.0.163.196/user/collections', {
+        const response = await axios.get('https://athena-fhmx.onrender.com/user/collections', {
           headers: {
             'Authorization': `Bearer ${token}`,
             'Accept': 'application/json'
@@ -74,7 +74,7 @@ export default function Collection() {
     if (newFolderName) {
       try {
         const token = localStorage.getItem('token');
-        const response = await axios.post(`http://65.0.163.196/user/create_collection/${newFolderName}`, {}, {
+        const response = await axios.post(`https://athena-fhmx.onrender.com/user/create_collection/${newFolderName}`, {}, {
           headers: {
             'Authorization': `Bearer ${token}`,
             'Accept': 'application/json'
@@ -97,7 +97,7 @@ export default function Collection() {
     if (window.confirm("Are you sure you want to delete this folder?")) {
       try {
         const token = localStorage.getItem('token');
-        const response = await axios.delete(`http://65.0.163.196/user/delete_collection/${folderName}`, {
+        const response = await axios.delete(`https://athena-fhmx.onrender.com/user/delete_collection/${folderName}`, {
           headers: {
             'Authorization': `Bearer ${token}`,
             'Accept': 'application/json'
@@ -126,7 +126,7 @@ const handleFileUpload = async (event) => {
         formData.append('book', file, file.name);
 
         const token = localStorage.getItem('token');
-        const response = await axios.post(`http://65.0.163.196/user/${selectedFolder}/add_book`, formData, {
+        const response = await axios.post(`https://athena-fhmx.onrender.com/user/${selectedFolder}/add_book`, formData, {
           headers: {
             'Authorization': `Bearer ${token}`,
             'Accept': 'application/json',
@@ -153,7 +153,7 @@ const handleDeleteBook = async (bookName) => {
   if (window.confirm("Are you sure you want to delete this book?")) {
     try {
       const token = localStorage.getItem('token');
-      const response = await axios.delete(`http://65.0.163.196/user/delete_book/${selectedFolder}/${bookName}`, {
+      const response = await axios.delete(`https://athena-fhmx.onrender.com/user/delete_book/${selectedFolder}/${bookName}`, {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Accept': 'application/json'

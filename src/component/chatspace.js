@@ -27,7 +27,7 @@ export default function ChatSpace() {
         const token = localStorage.getItem('token');
 
         // Request the user's collections from the server
-        const response = await axios.get('http://65.0.163.196/user/collections', {
+        const response = await axios.get('https://athena-fhmx.onrender.com/user/collections', {
           headers: {
             'Authorization': `Bearer ${token}`,
             'Accept': 'application/json',
