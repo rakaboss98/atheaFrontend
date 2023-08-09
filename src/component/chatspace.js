@@ -1,100 +1,133 @@
+// Import necessary libraries and modules
 import React, { useState, useRef, useEffect } from 'react';
-import { Box, TextField, Button, Select, MenuItem, FormControl, InputLabel, Grid } from '@mui/material';
+import { Box, TextField, Button, Select, MenuItem, FormControl, InputLabel, Grid, LinearProgress } from '@mui/material';
 import Typewriter from 'typewriter-effect/dist/core';
 import Typography from '@mui/material/Typography';
 import axios from 'axios';
 
-// Our main ChatSpace Component
+// Define the ChatSpace functional component
 export default function ChatSpace() {
-  // State variable for the user's chat input
-  const [inputValue, setInputValue] = useState('');
 
-  // State variable for the currently selected folder from dropdown
-  const [folder, setFolder] = useState('');
+  // State variables
+  const [inputValue, setInputValue] = useState('');             // Store the input value
+  const [folder, setFolder] = useState('');                     // Store the selected folder name
+  const [folders, setFolders] = useState([]);                   // Store the list of available folders
+  const [refresh, setRefresh] = useState(false);                // Track if the collections should be refreshed
+  const [isLoadingCollection, setIsLoadingCollection] = useState(false); // Loading state for collection fetching
+  const [isSubmittingQuery, setIsSubmittingQuery] = useState(false);     // Loading state for chat submission
 
-  // State variable for the list of folders that the user can select from
-  const [folders, setFolders] = useState([]);
+  // Constants
+  const BASE_URL = 'https://athena-fhmx.onrender.com';         // Base API URL
+  const token = localStorage.getItem('token');                 // Retrieve authentication token from local storage
 
-  // State variable to trigger useEffect and refresh the list of collections
-  const [refresh, setRefresh] = useState(false);
-
-  // Effect hook to fetch the collections
+  // Effect hook to fetch available collections from API when component mounts or refresh state changes
   useEffect(() => {
-    // Function to fetch collections
     const fetchCollections = async () => {
       try {
-        // Get the user's token from local storage
-        const token = localStorage.getItem('token');
-
-        // Request the user's collections from the server
-        const response = await axios.get('https://athena-fhmx.onrender.com/user/collections', {
+        const response = await axios.get(`${BASE_URL}/user/collections`, {
           headers: {
             'Authorization': `Bearer ${token}`,
             'Accept': 'application/json',
           },
         });
-
-        // Parse the collections from the response
         const collections = response.data.collections;
-        const folderNames = Object.keys(collections);
-
-        // Update the list of folders
-        setFolders(folderNames);
+        const folderNames = Object.keys(collections);          // Extract folder names from collections object
+        setFolders(folderNames);                               // Update folders state with the fetched folder names
       } catch(error) {
-        // Log any errors
         console.error('Failed to fetch collections', error);
       }
     };
 
-    // Fetch the collections
     fetchCollections();
-  }, [refresh]); // Depend on the refresh state variable so the effect is re-run when refresh changes
+  }, [refresh]);  // Refresh state dependency ensures collections are refetched when refresh state changes
 
-  // Function to handle changes to the chat input
+  // Handler to update input value state
   const handleInputChange = (e) => {
     setInputValue(e.target.value);
   };
 
-  // Function to handle selection of a folder from the dropdown
-  const handleFolderChange = (e) => {
-    setFolder(e.target.value);
+  // Handler to manage changes in the selected folder and fetch its content
+  const handleFolderChange = async (e) => {
+    const selectedFolder = e.target.value;
+    setFolder(selectedFolder);
+    setIsLoadingCollection(true); // Set loading state when beginning to fetch collection
+
+    try {
+      await axios.get(`${BASE_URL}/user/${encodeURIComponent(selectedFolder)}/download_collection`, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Accept': 'application/json',
+        },
+      });
+
+      await axios.post(`${BASE_URL}/load_collection/${encodeURIComponent(selectedFolder)}`, {}, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Accept': 'application/json',
+        },
+      });
+    } catch(error) {
+      console.error('Error during folder selection:', error);
+    } finally {
+      setIsLoadingCollection(false); // Reset loading state after collection fetch completes
+    }
   };
 
-  // Function to handle clicking the refresh button
+  // Handler to toggle the refresh state
   const handleRefresh = () => {
-    setRefresh(prevState => !prevState); // Flip the refresh state variable to trigger the effect
+    setRefresh(prevState => !prevState);                      // Toggle the refresh state value
   };
 
-  // Function to handle submitting a chat message
-  const handleSubmit = () => {
-    // Construct the chat response
-    const response = inputValue + '\n' + "This is the mock response from the API call.";
+  // Handler to manage chat submissions
+  const handleSubmit = async () => {
+    setIsSubmittingQuery(true); // Set loading state when beginning chat submission
 
-    // Reset the chat input field
-    setInputValue('');
+    try {
+      const response = await axios.post(
+        `${BASE_URL}/ask/${encodeURIComponent(folder)}`,
+        { query: inputValue },
+        {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+          },
+        }
+      );
 
-    // Initialize the typewriter with the chat response
-    const tw = new Typewriter(twRef.current, {
-      loop: false,
-      delay: 80,
-    });
+      const apiResponse = response.data;
 
-    tw.deleteAll() // Delete all currently printed strings
-      .typeString(response) // Type the new string
-      .start(); // Begin typing
+      setInputValue('');  // Clear the input after submission
+
+      // Initialize the Typewriter effect to display API response
+      const tw = new Typewriter(twRef.current, {
+        loop: false,
+        delay: 80,
+      });
+
+      tw.deleteAll()
+        .typeString(apiResponse)
+        .start();
+    } catch (error) {
+      console.error('Error during chat submission:', error);
+    } finally {
+      setIsSubmittingQuery(false); // Reset loading state after chat submission completes
+    }
   };
 
-  // Ref for the Typewriter component
-  const twRef = useRef();
+  const twRef = useRef();  // Reference for the Typewriter effect's DOM element
 
+  // Render the ChatSpace component
   return (
-    // Container for the chat UI
     <Box sx={{justifyContent: 'center', alignItems: 'center'}}>
-      {/* Chat title */}
       <Typography sx={{ mt: 2, mb: 4 }} variant="h4" component="div" align="center">
         Chat Space
       </Typography>
-      {/* Folder selection dropdown */}
+
+      {isLoadingCollection && <LinearProgress sx={{mb: 2, width: '100%'}} />}     {/*Show progress bar if loading collection*/}
+      {isSubmittingQuery && <LinearProgress sx={{mb: 2, width: '100%'}} />}       {/*Show progress bar if submitting chat*/}
+
+      {/* Collection selection dropdown */}
       <FormControl fullWidth>
         <InputLabel id="demo-simple-select-label">Collection</InputLabel>
         <Select
@@ -109,7 +142,8 @@ export default function ChatSpace() {
             ))}
         </Select>
       </FormControl>
-      {/* Area for displaying chat messages */}
+
+      {/* Typewriter effect display area */}
       <Box
         sx={{
           backgroundColor: 'grey.200',
@@ -123,7 +157,8 @@ export default function ChatSpace() {
       >
         <div ref={twRef}></div>
       </Box>
-      {/* Area for user to input chat messages */}
+
+      {/* Input area for chat */}
       <Grid container direction="column" sx={{ height: '1fr' }}>
         <Grid item xs={12}>
           <TextField
@@ -135,7 +170,8 @@ export default function ChatSpace() {
             sx={{ width: '100%', marginBottom: '16px' }}
           />
         </Grid>
-        {/* Submit and Refresh button */}
+
+        {/* Action buttons (Refresh and Submit) */}
         <Grid item xs={12} sx={{display: 'flex', justifyContent: 'center', flex: 1, alignItems: 'flex-end'}}>
           <Button
             variant="contained"
