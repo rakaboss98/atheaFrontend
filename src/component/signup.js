@@ -1,37 +1,49 @@
 import React, { useState } from 'react';
-import { Grid, TextField, Button, Typography, CircularProgress, Box, Paper } from '@mui/material';
+import { TextField, Button, Typography, LinearProgress, Box } from '@mui/material';
 import Alert from '@mui/material/Alert';
 import axios from 'axios';
 
-export default function Signup(){
+export default function Signup() {
     const [signupEmail, setSignupEmail] = useState('');
     const [signupPassword, setSignupPassword] = useState('');
     const [error, setError] = useState('');
     const [isLoading, setIsLoading] = useState(false);
 
     const handleSignup = async () => {
-        setError('');
-        setIsLoading(true);
+        setError('');         // Reset any existing errors
+        setIsLoading(true);  // Begin loading when starting signup request
+
         try {
-          await axios.post('https://athena-fhmx.onrender.com/user/', { username: signupEmail, password: signupPassword, collections: {} });
-          setIsLoading(false);
+            await axios.post('https://athena-fhmx.onrender.com/user/', { username: signupEmail, password: signupPassword, collections: {} });
+
         } catch (error) {
-          console.error('Signup Error', error);
-          setIsLoading(false);
-          setError('Signup error. Please try again.');
+            console.error('Signup Error', error);
+            setError('Signup error. Please try again.'); // If there's an error, display it to the user
+        } finally {
+            setIsLoading(false);  // Stop loading after the API call is completed, regardless of its result
         }
-      };
+    };
 
-      return (
-        <Box sx={{display: 'flex', flexDirection: 'column', gap: '20px', width : '100%'}}>
+    return (
+        <Box sx={{ display: 'flex', flexDirection: 'column', gap: '20px', width: '100%' }}>
             <Typography sx={{ mt: 5, mb: 5 }} variant="h4">Sign Up</Typography>
+            
+            {/* Input field for Email */}
             <TextField label="Email" value={signupEmail} onChange={e => setSignupEmail(e.target.value)} />
+            
+            {/* Input field for Password */}
             <TextField label="Password" value={signupPassword} type="password" onChange={e => setSignupPassword(e.target.value)} />
+            
+            {/* Signup button; it displays a progress circle if loading, otherwise displays "Sign Up" */}
             <Button disabled={isLoading} onClick={handleSignup}>
-            {isLoading ? <CircularProgress size={24} /> : "Sign Up"}
+                Sign Up
             </Button>
-            {error && <Alert severity="error">{error}</Alert>}
-        </Box>
-      );
 
+            {/* Display the linear progress bar when isLoading is true */}
+            {isLoading && <LinearProgress sx={{ mt: 2 }} />}
+            
+            {/* Display error messages if they exist */}
+            {error && <Alert severity="error" sx={{ mt: 2 }}>{error}</Alert>}
+        </Box>
+    );
 }

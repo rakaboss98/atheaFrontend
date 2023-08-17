@@ -15,6 +15,7 @@ import ListItemSecondaryAction from '@mui/material/ListItemSecondaryAction';
 import axios from 'axios';
 import IconButton from '@mui/material/IconButton';
 import {useDropzone} from 'react-dropzone'
+import { LinearProgress } from '@mui/material';
 
 // Collection component represents the user's collections of books
 export default function Collection() {
@@ -27,6 +28,7 @@ export default function Collection() {
   const [selectedFolder, setSelectedFolder] = React.useState(null);
   const [folders, setFolders] = React.useState([]);
   const [folderItems, setFolderItems] = React.useState({});
+  const [uploading, setUploading] = React.useState(false);
 
   // useEffect hook to fetch the collections data from the API
   React.useEffect(() => {
@@ -119,6 +121,7 @@ export default function Collection() {
 const handleFileUpload = async (event) => {
   const files = event.target.files;
   if (files.length > 0) {
+    setUploading(true)
     for (let i = 0; i < files.length; i++) {
       try {
         const file = files[i];
@@ -145,6 +148,7 @@ const handleFileUpload = async (event) => {
     }
     // Refresh collections after all files have been processed
     setCollectionsUpdated(true);
+    setUploading(false);
   }
   };
 
@@ -177,6 +181,7 @@ const handleDeleteBook = async (bookName) => {
   if (selectedFolder) {
     return (
       <Box sx={{ flexGrow: 1, justifyContent: 'center', alignItems: 'center'}}>
+        {uploading && <LinearProgress/>}
         <Grid container alignItems="center">
           <Grid item xs={1}>
             <IconButton edge="start" color="inherit" onClick={handleBackClick} aria-label="back">

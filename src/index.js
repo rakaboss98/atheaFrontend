@@ -76,14 +76,14 @@ function App(){
 
             {/* Column container for Collection Component */}
             <Grid item xs={6}>
-              <Paper elevation={2} sx={{ height: 'calc(100vh - 250px)', overflow: 'auto', p: 2, backgroundColor: 'rgba(255, 255, 255, 0.6)' }}>
+              <Paper elevation={2} sx={{ height: 'calc(100vh - 175px)', overflow: 'auto', p: 2, backgroundColor: 'rgba(255, 255, 255, 0.6)' }}>
                 <Collection/>
               </Paper>
             </Grid>
 
             {/* Column container for other content */}
             <Grid item xs={6}>
-              <Paper elevation={2} sx={{ height: 'calc(100vh - 250px)', overflow: 'auto', p: 2, backgroundColor: 'rgba(255, 255, 255, 0.7)' }}>
+              <Paper elevation={2} sx={{ height: 'calc(100vh - 175px)', overflow: 'auto', p: 2, backgroundColor: 'rgba(255, 255, 255, 0.7)' }}>
                 <Chatspace/>
               </Paper>
             </Grid>
