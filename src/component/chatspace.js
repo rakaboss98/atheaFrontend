@@ -15,6 +15,7 @@ export default function ChatSpace() {
   const [refresh, setRefresh] = useState(false);                // Track if the collections should be refreshed
   const [isLoadingCollection, setIsLoadingCollection] = useState(false); // Loading state for collection fetching
   const [isSubmittingQuery, setIsSubmittingQuery] = useState(false);     // Loading state for chat submission
+  const [openaiKey, setOpenaiKey] = useState(localStorage.getItem('openaiKey') || '');  // Get key from cache or set to empty string
 
   // Constants
   const BASE_URL = 'https://athena-fhmx.onrender.com';         // Base API URL
@@ -46,8 +47,19 @@ export default function ChatSpace() {
     setInputValue(e.target.value);
   };
 
+  // Handler to set OpenAI key
+  const handleOpenaiKeyChange = (e) => {
+    const key = e.target.value;
+    setOpenaiKey(key);                    // Update the OpenAI key state
+    localStorage.setItem('openaiKey', key); // Save key in cache
+  };
+
   // Handler to manage changes in the selected folder and fetch its content
   const handleFolderChange = async (e) => {
+    if (!openaiKey) {
+      alert("Please enter your OpenAI API key first."); 
+      return;
+    }
     const selectedFolder = e.target.value;
     setFolder(selectedFolder);
     setIsLoadingCollection(true); // Set loading state when beginning to fetch collection
@@ -60,10 +72,13 @@ export default function ChatSpace() {
         },
       });
 
-      await axios.post(`${BASE_URL}/load_collection/${encodeURIComponent(selectedFolder)}`, {}, {
+      await axios.post(`${BASE_URL}/load_collection/${encodeURIComponent(selectedFolder)}`, {
+        openai_api_key: openaiKey  // Hardcoded for demonstration, don't do this in practice.
+      }, {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Accept': 'application/json',
+          'Content-Type': 'application/json'
         },
       });
     } catch(error) {
@@ -126,7 +141,16 @@ export default function ChatSpace() {
 
       {isLoadingCollection && <LinearProgress sx={{mb: 2, width: '100%'}} />}     {/*Show progress bar if loading collection*/}
       {isSubmittingQuery && <LinearProgress sx={{mb: 2, width: '100%'}} />}       {/*Show progress bar if submitting chat*/}
-
+      {/* OpenAI Key Input */}
+      <TextField 
+        fullWidth 
+        variant="outlined"
+        label="OpenAI API Key"
+        value={openaiKey}
+        onChange={handleOpenaiKeyChange}
+        sx={{ mb: 2 }}
+        placeholder="Enter your OpenAI API key"
+      />
       {/* Collection selection dropdown */}
       <FormControl fullWidth>
         <InputLabel id="demo-simple-select-label">Collection</InputLabel>
