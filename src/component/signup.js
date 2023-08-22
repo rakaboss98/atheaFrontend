@@ -13,6 +13,12 @@ export default function Signup() {
         setError('');         // Reset any existing errors
         setIsLoading(true);  // Begin loading when starting signup request
 
+        // validate the email domain
+        if (!signupEmail.endsWith("@gmail.com")){
+            setError('Please sign up with a valid email ID');
+            setIsLoading(false) // stop loading since we have client side error
+            return;
+        };
         try {
             await axios.post('https://athena-fhmx.onrender.com/user/', { username: signupEmail, password: signupPassword, collections: {} });
 
