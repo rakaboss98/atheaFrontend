@@ -31,17 +31,17 @@ export default function Signup() {
     };
 
     return (
-        <Box sx={{ display: 'flex', flexDirection: 'column', gap: '20px', width: '100%' }}>
-            <Typography sx={{ mt: 5, mb: 5 }} variant="h4">Sign Up</Typography>
+        <Box sx={{ display: 'flex', flexDirection: 'column', gap: '10px', width: '100%' }}>
+            <Typography sx={{ mt: 0, mb: 2, fontWeight: 'bold' }} variant="h3">Sign Up</Typography>
             
             {/* Input field for Email */}
-            <TextField label="Email" value={signupEmail} onChange={e => setSignupEmail(e.target.value)} />
+            <TextField sx = {{mb:1}} label="Email" value={signupEmail} onChange={e => setSignupEmail(e.target.value)} />
             
             {/* Input field for Password */}
-            <TextField label="Password" value={signupPassword} type="password" onChange={e => setSignupPassword(e.target.value)} />
+            <TextField sx = {{mb:2}} label="Password" value={signupPassword} type="password" onChange={e => setSignupPassword(e.target.value)} />
             
             {/* Signup button; it displays a progress circle if loading, otherwise displays "Sign Up" */}
-            <Button disabled={isLoading} onClick={handleSignup}>
+            <Button sx = {{mb:1}} disabled={isLoading} onClick={handleSignup} variant="contained" color="primary" size="large">
                 Sign Up
             </Button>
 

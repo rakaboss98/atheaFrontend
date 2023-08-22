@@ -27,15 +27,15 @@ export default function Login({ setLoggedIn }) {
   };
 
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', gap: '20px', width: '100%' }}>
-      <Typography sx={{ mt: 5, mb: 5 }} variant="h4">Login</Typography>
+    <Box sx={{ display: 'flex', flexDirection: 'column', gap: '10px', width: '100%' }}>
+      <Typography sx={{ mt: 0, mb: 2, fontWeight: 'bold'}} variant="h3">Sign In</Typography>
 
-      <TextField label="Email" value={loginEmail} onChange={e => setLoginEmail(e.target.value)} />
+      <TextField sx = {{mb:1}} label="Email" value={loginEmail} onChange={e => setLoginEmail(e.target.value)} />
 
-      <TextField label="Password" value={loginPassword} type="password" onChange={e => setLoginPassword(e.target.value)} />
+      <TextField sx = {{mb:2}} label="Password" value={loginPassword} type="password" onChange={e => setLoginPassword(e.target.value)} />
 
-      <Button onClick={handleLogin} disabled={loading}>  {/* Disable button during loading */}
-        Login
+      <Button sx = {{mb:1}} onClick={handleLogin} disabled={loading} variant="contained" color="primary" size="large" >  {/* Disable button during loading */}
+        Sign In
       </Button>
 
       {loading && <LinearProgress sx={{ mt: 2 }} />} {/* Show linear progress bar during loading */}

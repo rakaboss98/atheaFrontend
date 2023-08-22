@@ -16,8 +16,10 @@ import Button from '@mui/material/Button';
 // Get root element for React to hook into
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
+
 function App(){
-  const [loggedIn, setLoggedIn] = useState(false)
+  const [loggedIn, setLoggedIn] = useState(false);
+  const [showSignup, setShowSignup] = useState(false);  // New state variable to track which form to display
   
   function logout() {
     localStorage.removeItem('token');
@@ -34,28 +36,29 @@ function App(){
   if (!loggedIn){
     return (
       <React.StrictMode>
-        <Container sx={{height: '100vh', p:2}}>
-          <Grid container spacing={3}>
-            <Grid item xs={12}>
-              <Paper elevation={2} sx={{ height: 80, display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(255, 255, 255, 0.2)' }}>
-                <Typography variant="h3" component="div" sx = {{marginRight: 40, marginLeft:40, fontFamily: 'Verdana'}}>
-                  ChatLiterate.com
+        <Container sx={{height: '100vh', width: '100%', p:5}}>
+          <Grid container spacing={0}>
+            {/* ... Header component here ... */}
+            <Grid item xs={7}>
+              <Box sx={{ p: 1, display: 'flex', flexDirection: 'column', alignItems: 'flex-start', justifyContent: 'center', overflow: 'auto' }}>
+                <Typography variant="h2" component="div" sx={{ fontWeight: 'bold', marginTop: 30 }}>
+                  DocScreen.AI
                 </Typography>
+                <Typography variant="h5" component="div" sx={{ marginTop: 2 }}>
+                  Where Document Management Meets Intelligent Question-Answering
+                </Typography>
+              </Box>
+            </Grid>
+            <Grid item xs={5}>
+              <Paper elevation={3} sx={{ height: '75vh', p: 5, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', overflow: 'auto', backgroundColor: 'rgba(255, 255, 255, 0.5)' }}>
+                { showSignup ? <Signup/> : <Login setLoggedIn={setLoggedIn}/> }
+                <Button onClick={() => setShowSignup(!showSignup)}>
+                  { showSignup ? "Already have an account? Sign In" : "Not a user yet? Sign Up" }
+                </Button>
               </Paper>
-            </Grid>
-            <Grid item xs={6}>
-            <Paper elevation={3} sx={{ height: '60vh', p: 5, display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'auto', backgroundColor: 'rgba(255, 255, 255, 0.5)'}}>
-              <Signup/>
-            </Paper>
-            </Grid>
-            <Grid item xs={6}>
-            <Paper elevation={3} sx={{ height: '60vh', p: 5, display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'auto', backgroundColor: 'rgba(255, 255, 255, 0.5)' }}>
-              <Login setLoggedIn={setLoggedIn}/>
-            </Paper>
             </Grid>
           </Grid>
         </Container>
-        {/* <Login setLoggedIn={setLoggedIn}/> */}
       </React.StrictMode>
     )
   }
@@ -92,8 +95,8 @@ function App(){
       </React.StrictMode>
     );
   }
-
 }
+
 
 // Render the main application
 root.render(<App/>);
