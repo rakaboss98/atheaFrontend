@@ -36,13 +36,13 @@ function App(){
   if (!loggedIn){
     return (
       <React.StrictMode>
-        <Container sx={{height: '100vh', width: '100%', p:5}}>
+        <Container sx={{height: '100vh', mt:5, mb:5, pl:2, pr:2}} maxWidth={false}>
           <Grid container spacing={0}>
             {/* ... Header component here ... */}
-            <Grid item xs={7}>
+            <Grid item xs={7} sx={{p:1}}>
               <Box sx={{ p: 1, display: 'flex', flexDirection: 'column', alignItems: 'flex-start', justifyContent: 'center', overflow: 'auto' }}>
                 <Typography variant="h2" component="div" sx={{ fontWeight: 'bold', marginTop: 30 }}>
-                  DocScreen.AI
+                  Docscreen.ai
                 </Typography>
                 <Typography variant="h5" component="div" sx={{ marginTop: 2 }}>
                   Where Document Management Meets Intelligent Question-Answering
@@ -96,7 +96,6 @@ function App(){
     );
   }
 }
-
 
 // Render the main application
 root.render(<App/>);
