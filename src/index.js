@@ -41,11 +41,11 @@ function App(){
             {/* ... Header component here ... */}
             <Grid item xs={7} sx={{p:1}}>
               <Box sx={{ p: 1, display: 'flex', flexDirection: 'column', alignItems: 'flex-start', justifyContent: 'center', overflow: 'auto' }}>
-                <Typography variant="h2" component="div" sx={{ fontWeight: 'bold', marginTop: 30 }}>
+                <Typography variant="h1" component="div" sx={{ fontWeight: '', marginTop: 30 }}>
                   Docscreen.ai
                 </Typography>
-                <Typography variant="h5" component="div" sx={{ marginTop: 2 }}>
-                  Where Document Management Meets Intelligent Question-Answering
+                <Typography variant="h5" component="div" sx={{ fontWeight: 'bold', marginTop: 2, ml: 0.75 }}>
+                  Document Management Meets Intelligent Question-Answering
                 </Typography>
               </Box>
             </Grid>
