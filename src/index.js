@@ -1,30 +1,28 @@
 // Import necessary libraries and components
 import React, {useState, useEffect} from 'react';
 import ReactDOM from 'react-dom/client';
-import './index.css'; // Importing global styles
-import Collection from './component/collection'; // Importing the Collection component
-import Paper from '@mui/material/Paper'; // Material UI Paper component
-import Container from '@mui/material/Container'; // Material UI Container component
-import Grid from '@mui/material/Grid'; // Material UI Grid component
-import Box from '@mui/material/Box'; // Material UI Box component
-import Typography from '@mui/material/Typography'; // Material UI Typography component
+import './index.css';
+import Collection from './component/collection';
+import Paper from '@mui/material/Paper';
+import Container from '@mui/material/Container';
+import Grid from '@mui/material/Grid';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
 import Chatspace from './component/chatspace';
 import Login from './component/login';
 import Signup from './component/signup';
 import Button from '@mui/material/Button';
 
-// Get root element for React to hook into
 const root = ReactDOM.createRoot(document.getElementById('root'));
-
 
 function App(){
   const [loggedIn, setLoggedIn] = useState(false);
-  const [showSignup, setShowSignup] = useState(false);  // New state variable to track which form to display
-  
+  const [showSignup, setShowSignup] = useState(false);
+
   function logout() {
     localStorage.removeItem('token');
     setLoggedIn(false);
-  };
+  }
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -35,67 +33,63 @@ function App(){
 
   if (!loggedIn){
     return (
-      <React.StrictMode>
-        <Container sx={{height: '100vh', mt:5, mb:5, pl:2, pr:2}} maxWidth={false}>
-          <Grid container spacing={0}>
-            {/* ... Header component here ... */}
-            <Grid item xs={7} sx={{p:1}}>
-              <Box sx={{ p: 1, display: 'flex', flexDirection: 'column', alignItems: 'flex-start', justifyContent: 'center', overflow: 'auto' }}>
-                <Typography variant="h1" component="div" sx={{ fontWeight: '', marginTop: 30 }}>
-                  Docscreen.ai
-                </Typography>
-                <Typography variant="h5" component="div" sx={{ fontWeight: 'bold', marginTop: 2, ml: 0.75 }}>
-                  Document Management Meets Intelligent Question-Answering
-                </Typography>
-              </Box>
-            </Grid>
-            <Grid item xs={5}>
-              <Paper elevation={3} sx={{ height: '75vh', p: 5, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', overflow: 'auto', backgroundColor: 'rgba(255, 255, 255, 0.5)' }}>
-                { showSignup ? <Signup/> : <Login setLoggedIn={setLoggedIn}/> }
-                <Button onClick={() => setShowSignup(!showSignup)}>
-                  { showSignup ? "Already have an account? Sign In" : "Not a user yet? Sign Up" }
-                </Button>
-              </Paper>
-            </Grid>
+      <Container sx={{height: '100vh', mt: 2, mb: 2, pl: 2, pr: 2}} maxWidth={false}>
+        <Grid container spacing={0}>
+          <Grid item xs={12} sm={7} sx={{ p: 1 }}>
+            <Box sx={{ 
+                p: 1, 
+                display: 'flex', 
+                flexDirection: 'column', 
+                alignItems: 'left', 
+                justifyContent: 'center', 
+                height: '100%'  // Makes sure the box takes full height
+              }}>
+              <Typography variant="h2" component="div" sx={{ fontWeight: '', mt: 3 }}>
+                Docscreen.ai
+              </Typography>
+              <Typography variant="h5" component="div" sx={{ fontWeight: 'bold', mt: 2, ml:0.40}}>
+                Document Management Meets Intelligent Question-Answering
+              </Typography>
+            </Box>
           </Grid>
-        </Container>
-      </React.StrictMode>
-    )
+          <Grid item xs={12} sm={5}>
+            <Paper elevation={3} sx={{ minHeight: '75vh', maxHeight: '100vh', p: 3, mt: 3, mb: 3, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+              { showSignup ? <Signup/> : <Login setLoggedIn={setLoggedIn}/> }
+              <Button onClick={() => setShowSignup(!showSignup)}>
+                { showSignup ? "Already have an account? Sign In" : "Not a user yet? Sign Up" }
+              </Button>
+            </Paper>
+          </Grid>
+        </Grid>
+      </Container>
+    );
   }
   else {
     return (
-      <React.StrictMode>
-        <Container sx={{ height: '100vh', p: 2 }}>
-          <Grid container spacing={3}>
-            {/* Header container */}
-            <Grid item xs={12}>
-              <Paper elevation={2} sx={{ height: 80, display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(255, 255, 255, 0.2)' }}>
-                <Typography variant="h3" component="div" sx = {{marginRight: 32, marginLeft:48, fontFamily: 'Verdana'}}>
-                  ChatLiterate.com
-                </Typography>
-                <Button onClick={logout} sx={{ backgroundColor: '#ff0000', color: '#ffffff' }}>logout</Button>
-              </Paper>
-            </Grid>
-
-            {/* Column container for Collection Component */}
-            <Grid item xs={6}>
-              <Paper elevation={2} sx={{ height: 'calc(100vh - 175px)', overflow: 'auto', p: 2, backgroundColor: 'rgba(255, 255, 255, 0.6)' }}>
-                <Collection/>
-              </Paper>
-            </Grid>
-
-            {/* Column container for other content */}
-            <Grid item xs={6}>
-              <Paper elevation={2} sx={{ height: 'calc(100vh - 175px)', overflow: 'auto', p: 2, backgroundColor: 'rgba(255, 255, 255, 0.7)' }}>
-                <Chatspace/>
-              </Paper>
-            </Grid>
+      <Container sx={{ height: '100vh', p: 2 }} maxWidth={false}>
+        <Grid container spacing={3}>
+          <Grid item xs={12}>
+            <Paper elevation={2} sx={{ height: 80, display: 'flex', alignItems: 'center', justifyContent: 'space-between', px: 2 }}>
+              <Typography variant="h3" sx={{ fontFamily: 'Verdana' }}>
+                ChatLiterate.com
+              </Typography>
+              <Button onClick={logout} sx={{ backgroundColor: '#ff0000', color: '#ffffff' }}>logout</Button>
+            </Paper>
           </Grid>
-        </Container>
-      </React.StrictMode>
+          <Grid item xs={12} sm={6}>
+            <Paper elevation={2} sx={{ height: 'calc(100vh - 175px)', overflow: 'auto', p: 2 }}>
+              <Collection/>
+            </Paper>
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <Paper elevation={2} sx={{ height: 'calc(100vh - 175px)', overflow: 'auto', p: 2 }}>
+              <Chatspace/>
+            </Paper>
+          </Grid>
+        </Grid>
+      </Container>
     );
   }
 }
 
-// Render the main application
 root.render(<App/>);
