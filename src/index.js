@@ -47,8 +47,8 @@ function App(){
               <Typography variant="h2" component="div" sx={{ fontWeight: '', mt: 3 }}>
                 Docscreen.ai
               </Typography>
-              <Typography variant="h5" component="div" sx={{ fontWeight: 'bold', mt: 2, ml:0.40}}>
-                Document Management Meets Intelligent Question-Answering
+              <Typography variant="h5" component="div" sx={{ fontWeight: 'bold', mt: 2, ml:0.50}}>
+                Where Document Management Meets Intelligent Question-Answering
               </Typography>
             </Box>
           </Grid>
@@ -69,19 +69,19 @@ function App(){
       <Container sx={{ height: '100vh', p: 2 }} maxWidth={false}>
         <Grid container spacing={3}>
           <Grid item xs={12}>
-            <Paper elevation={2} sx={{ height: 80, display: 'flex', alignItems: 'center', justifyContent: 'space-between', px: 2 }}>
-              <Typography variant="h3" sx={{ fontFamily: 'Verdana' }}>
-                ChatLiterate.com
+            <Paper elevation={0} sx={{ height: 80, display: 'flex', alignItems: 'center', justifyContent: 'space-between', px: 2, overflow: 'auto'}}>
+              <Typography variant="h2" sx={{ fontFamily: '' }}>
+                Docscreen.ai
               </Typography>
               <Button onClick={logout} sx={{ backgroundColor: '#ff0000', color: '#ffffff' }}>logout</Button>
             </Paper>
           </Grid>
-          <Grid item xs={12} sm={6}>
+          <Grid item xs={12} sm={5}>
             <Paper elevation={2} sx={{ height: 'calc(100vh - 175px)', overflow: 'auto', p: 2 }}>
               <Collection/>
             </Paper>
           </Grid>
-          <Grid item xs={12} sm={6}>
+          <Grid item xs={12} sm={7}>
             <Paper elevation={2} sx={{ height: 'calc(100vh - 175px)', overflow: 'auto', p: 2 }}>
               <Chatspace/>
             </Paper>

@@ -227,7 +227,7 @@ const handleDeleteBook = async (bookName) => {
   return (
     <Box sx={{ flexGrow: 1, justifyContent: 'center', alignItems: 'center'}}>
       <Typography sx={{ mt: 2, mb: 2 }} variant="h4" component="div" align="center">
-        My Collection
+        My Collections
       </Typography>
       <List>
         {folders.map((folderName, index) => (
