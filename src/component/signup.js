@@ -20,7 +20,8 @@ export default function Signup() {
             return;
         };
         try {
-            await axios.post('https://athena-fhmx.onrender.com/user/', { username: signupEmail, password: signupPassword, collections: {} });
+            // await axios.post('https://athena-fhmx.onrender.com/user/', { username: signupEmail, password: signupPassword, collections: {} });
+            await axios.post('https://65.0.163.196/user/', { username: signupEmail, password: signupPassword, collections: {} });
 
         } catch (error) {
             console.error('Signup Error', error);
