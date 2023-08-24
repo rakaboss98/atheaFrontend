@@ -18,7 +18,7 @@ export default function ChatSpace() {
   const [openaiKey, setOpenaiKey] = useState(localStorage.getItem('openaiKey') || '');  // Get key from cache or set to empty string
 
   // Constants
-  const BASE_URL = 'https://65.0.163.196';         // Base API URL
+  const BASE_URL = 'https://athena-fhmx.onrender.com';         // Base API URL
   const token = localStorage.getItem('token');                 // Retrieve authentication token from local storage
 
   // Effect hook to fetch available collections from API when component mounts or refresh state changes
