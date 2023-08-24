@@ -135,7 +135,7 @@ export default function ChatSpace() {
   // Render the ChatSpace component
   return (
     <Box sx={{justifyContent: 'center', alignItems: 'center'}}>
-      <Typography sx={{ mt: 2, mb: 4 }} variant="h4" component="div" align="center">
+      <Typography sx={{ mt: 2, mb: 4, fontWeight: 'bold' }} variant="h4" component="div" align="center">
         Chat Space
       </Typography>
 

@@ -226,7 +226,7 @@ const handleDeleteBook = async (bookName) => {
   // Otherwise, show the list of folders
   return (
     <Box sx={{ flexGrow: 1, justifyContent: 'center', alignItems: 'center'}}>
-      <Typography sx={{ mt: 2, mb: 2 }} variant="h4" component="div" align="center">
+      <Typography sx={{ mt: 2, mb: 2, fontWeight: 'bold' }} variant="h4" component="div" align="center">
         My Collections
       </Typography>
       <List>
